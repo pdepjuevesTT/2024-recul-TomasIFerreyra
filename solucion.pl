@@ -42,16 +42,22 @@ valor(julian,140000).
 valor(vale,95000).
 valor(fer,60000).
 
-comprar(Plata, Propiedades) :-
+comprar(Plata, Propiedades, PlataFinal) :-
     findall(Persona, vive(Persona,_), PersonasConPropiedad),
-    puedeComprar(Plata, PersonasConPropiedad, Propiedades).
+    puedeComprar(Plata, PersonasConPropiedad, Propiedades, PlataFinal),
+    length(Propiedades, CantPropiedades),
+    CantPropiedades >= 1.
 
-puedeComprar(_,[],[]).
-puedeComprar(PlataRestante, [Propiedad|Resto], Compradas) :-
+puedeComprar(Plata,[],[], PlataFinal) :- PlataFinal is Plata.
+puedeComprar(PlataRestante, [Propiedad|Resto], Compradas,PlataFinal) :-
     valor(Propiedad, Valor),
     PlataRestante < Valor,
-    puedeComprar(PlataRestante, Resto, Compradas).
-puedeComprar(PlataRestante, [Propiedad|Resto], [Propiedad|Compradas]) :-
+    puedeComprar(PlataRestante, Resto, Compradas,PlataFinal).
+puedeComprar(PlataRestante, [Propiedad|Resto], [Propiedad|Compradas],PlataFinal) :-
     valor(Propiedad, Valor),
     PlataRestante >= Valor,
-    puedeComprar(PlataRestante - Valor, Resto, Compradas).
+    puedeComprar(PlataRestante - Valor, Resto, Compradas,PlataFinal).
+puedeComprar(PlataRestante, [Propiedad|Resto], Compradas,PlataFinal) :-
+    valor(Propiedad, Valor),
+    PlataRestante >= Valor,
+    puedeComprar(PlataRestante, Resto, Compradas,PlataFinal).
