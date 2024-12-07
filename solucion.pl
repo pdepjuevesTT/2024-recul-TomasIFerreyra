@@ -49,15 +49,15 @@ comprar(Plata, Propiedades, PlataFinal) :-
     CantPropiedades >= 1.
 
 puedeComprar(Plata,[],[], PlataFinal) :- PlataFinal is Plata.
-puedeComprar(PlataRestante, [Propiedad|Resto], Compradas,PlataFinal) :-
+puedeComprar(PlataRestante, [Propiedad|Resto], Compradas, PlataFinal) :-
     valor(Propiedad, Valor),
     PlataRestante < Valor,
-    puedeComprar(PlataRestante, Resto, Compradas,PlataFinal).
-puedeComprar(PlataRestante, [Propiedad|Resto], [Propiedad|Compradas],PlataFinal) :-
+    puedeComprar(PlataRestante, Resto, Compradas, PlataFinal).
+puedeComprar(PlataRestante, [Propiedad|Resto], [Propiedad|Compradas], PlataFinal) :-
     valor(Propiedad, Valor),
     PlataRestante >= Valor,
-    puedeComprar(PlataRestante - Valor, Resto, Compradas,PlataFinal).
-puedeComprar(PlataRestante, [Propiedad|Resto], Compradas,PlataFinal) :-
+    puedeComprar(PlataRestante - Valor, Resto, Compradas, PlataFinal).
+puedeComprar(PlataRestante, [Propiedad|Resto], Compradas, PlataFinal) :-
     valor(Propiedad, Valor),
     PlataRestante >= Valor,
-    puedeComprar(PlataRestante, Resto, Compradas,PlataFinal).
+    puedeComprar(PlataRestante, Resto, Compradas, PlataFinal).
